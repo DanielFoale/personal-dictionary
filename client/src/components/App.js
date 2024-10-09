@@ -1,25 +1,66 @@
-import logo from '../logo.svg';
 import '../App.css';
+import Login from './Login';
+import Register from './Register';
+import Home from './Home';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home');
+    }
+  }, [navigate]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to rload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+    <Route 
+      path="/login" 
+      element={
+        <div>
+          <Login />
+        </div>
+      } 
+    />
+    <Route 
+      path="/register" 
+      element={
+        <div>
+          <Register />
+        </div>
+      } 
+    />
+    <Route 
+      path="/home" 
+      element={
+        <div>
+          <Home />
+        </div>
+      } 
+    />
+    <Route 
+      path="*" 
+      element={
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      } 
+    />
+  </Routes>
   );
 }
+
 
 export default App;
